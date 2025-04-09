@@ -1,713 +1,862 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HireMe.ai - Smart Resume Builder</title>
-     <link rel="icon" href="HireMeLogo.png" type="image/png">
+    <link rel="icon" href="HireMeLogo.png" type="image/png">
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-      :root {
-        --primary: #4f46e5;
-        --accent: #facc15;
-        --light-bg: #f0f4f8;
-        --dark-text: #1f2937;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Manrope", "Segoe UI", sans-serif;
-        background-color: var(--light-bg);
-        color: var(--dark-text);
-      }
-
-      /* Navbar */
-      .navbar {
-        background-color: #212121;
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #fff;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-
-      .navbar .logo {
-        font-size: 1.8rem;
-        font-weight: bold;
-        letter-spacing: 1px;
-      }
-
-      .navbar .nav-links {
-        list-style: none;
-        display: flex;
-        gap: 25px;
-      }
-
-      .navbar .nav-links li a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: 500;
-        transition: 0.3s;
-      }
-
-      .navbar .nav-links li a:hover {
-        color: var(--accent);
-      }
-
-      .navbar .auth-buttons {
-        display: flex;
-        gap: 15px;
-      }
-
-      .navbar .auth-buttons button {
-        background: none;
-        color: #fff;
-        border: 1px solid #fff;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-      }
-
-      .navbar .auth-buttons button:hover {
-        background-color: var(--accent);
-        color: #000;
-        border-color: var(--accent);
-      }
-
-      /* Hero Section */
-      .hero {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        text-align: center;
-        padding: 120px 20px 80px;
-        background: linear-gradient(to bottom, #f0f0f0, #d3d3d3);
-        color: #000;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 10%;
-        width: 150px;
-        height: 150px;
-        background-color: rgba(
-          79,
-          70,
-          229,
-          0.15
-        ); /* Primary color with transparency */
-        border-radius: 50%;
-        transform: translateY(-50%);
-        z-index: 0; /* Behind the card */
-        filter: blur(50px);
-      }
-
-      .hero::after {
-        /* Existing blur circle */
-        content: "";
-        position: absolute;
-        bottom: 10%;
-        right: 15%;
-        width: 100px;
-        height: 100px;
-        background-color: rgba(
-          250,
-          204,
-          21,
-          0.2
-        ); /* Accent color with transparency */
-        border-radius: 10px;
-        z-index: 0; /* Behind the card */
-        transform: rotate(-15deg);
-        filter: blur(30px);
-      }
-
-      .hero-right {
-        /* Existing styles */
-      }
-
-      .hero-right h1 {
-        font-size: 3rem;
-        max-width: 700px; /* Adjust as needed */
-        height: 4rem; /* Adjust as needed */
-        line-height: 4rem; /* Vertically center text */
-        z-index: 1;
-        white-space: nowrap; /* Prevent wrapping */
-        overflow: hidden; /* Hide characters beyond the visible width */
-        border-right: 0.15em solid orange; /* Blinking cursor effect */
-        animation: typing 2s steps(20, end),
-          /* Typing effect */ blink-caret 0.75s step-end infinite; /* Cursor blink */
-        display: inline-block; /* Allows setting height and width */
-      }
-
-      @keyframes typing {
-        from {
-          width: 0;
+        :root {
+            --primary: #4f46e5;
+            --accent: #facc15;
+            --light-bg: #f0f4f8;
+            --dark-text: #1f2937;
         }
-        to {
-          width: 100%;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      }
 
-      @keyframes blink-caret {
-        from,
-        to {
-          border-color: transparent;
+        body {
+            font-family: "Manrope", "Segoe UI", sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
         }
-        50% {
-          border-color: orange;
-        }
-      }
 
-      .hero p {
-        margin-top: 20px;
-        font-size: 1.2rem;
-        max-width: 600px;
-        z-index: 1;
-      }
-
-      .hero button {
-        margin-top: 30px;
-        background: white;
-        color: var(--primary);
-        border: none;
-        padding: 12px 30px;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 1;
-      }
-
-      .hero button:hover {
-        background-color: var(--accent);
-        color: #000;
-        transform: scale(1.05);
-      }
-
-      header {
-        perspective: 1000px;
-      }
-
-      .hero-left {
-        position: relative;
-        width: 350px;
-        height: 450px;
-        /* background: #ccc; /* For debugging */
-      }
-
-      .design-behind-image {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 140%; /* Increased width to be larger than card */
-        height: auto; /* Maintain aspect ratio */
-        transform: translate(-50%, -50%);
-        object-fit: contain; /* Or 'cover' depending on desired effect */
-        z-index: -1; /* Place behind the card-container */
-        background-color: none; /* Remove transparency by adding a solid background */
-      }
-
-      .card-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transform-style: preserve-3d;
-        transition: transform 0.8s ease-in-out;
-        transform: rotateY(0deg);
-        z-index: 1; /* Ensure it's above the design image */
-      }
-
-      .card-container.flipped {
-        transform: rotateY(180deg);
-      }
-
-      .front,
-      .back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 8px;
-        backface-visibility: hidden;
-      }
-
-      .front {
-        background-color: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-        transform: rotateY(0deg);
-      }
-
-      .back {
-        background: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-        transform: rotateY(180deg);
-      }
-
-      .back img {
-        width: 500px;
-        height: 450px;
-        object-fit: cover;
-      }
-
-      .front img {
-        width: 500px;
-        height: 450px;
-        object-fit: cover;
-      }
-
-      /* Features */
-      .features {
-        /* display: flex;
-        justify-content: center;
-        flex-direction: column; */
-        /* flex-wrap: wrap; */
-        padding: 60px 20px;
-        background-color: #f0f4f8;
-        color: #000;
-        height: 100vh;
-        background: linear-gradient(to bottom, #f0f0f0, #d3d3d3);
-
-      }
-
-      .feature_heading h2 {
-        font-size: 2rem;
-        padding: 10px;
-      }
-
-      .feature_heading {
-        text-align: center;
-        margin: 80px;
-        color: #000;
-      }
-
-      .feature {
-        background: #f9fafb;
-        padding: 30px;
-        margin: 15px;
-        width: 300px;
-        height: 30vh;
-        border-radius: 16px;
-        text-align: center;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-        transition: 0.3s ease;
-      }
-
-      .boxes {
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-      }
-
-      .feature:hover {
-        transform: translateY(-5px);
-      }
-
-      .feature h3 {
-        margin-bottom: 10px;
-        color: var(--primary);
-      }
-
-      .feature p {
-        font-size: 0.95rem;
-      }
-
-      /* Footer */
-      footer {
-        text-align: center;
-        background-color: var(--primary);
-        color: white;
-        padding: 20px;
-        font-size: 14px;
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
+        /* Navbar */
         .navbar {
-          flex-direction: column;
-          align-items: flex-start;
+            background-color: #212121;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .navbar .logo {
-          margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .navbar .nav-links {
-          flex-direction: column;
-          display: none;
-          background: #212121;
-          width: 100%;
-          padding: 15px 20px;
-          border-radius: 8px;
-          margin-top: 10px;
+            list-style: none;
+            display: flex;
+            gap: 25px;
         }
 
-        .navbar .nav-links.active {
-          display: flex;
+        .navbar .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .navbar .nav-links li a:hover {
+            color: var(--accent);
         }
 
         .navbar .auth-buttons {
-          display: none;
-          flex-direction: column;
-          width: 100%;
-          margin-top: 10px;
-          gap: 10px;
+            display: flex;
+            gap: 15px;
         }
 
-        .navbar .auth-buttons.active {
-          display: flex;
+        .navbar .auth-buttons button {
+            background: none;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        .navbar .toggle-btn {
-          display: block;
-          cursor: pointer;
-          font-size: 1.5rem;
-          position: absolute;
-          top: 1rem;
-          right: 2rem;
+        .navbar .auth-buttons button:hover {
+            background-color: var(--accent);
+            color: #000;
+            border-color: var(--accent);
         }
 
+        /* Hero Section */
         .hero {
-          flex-direction: column;
-          text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
+            padding: 120px 20px 80px;
+            background: linear-gradient(to bottom, #f0f0f0, #d3d3d3);
+            color: #000;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-left {
-          margin-bottom: 30px;
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            width: 150px;
+            height: 150px;
+            background-color: rgba(79,
+                    70,
+                    229,
+                    0.15);
+            /* Primary color with transparency */
+            border-radius: 50%;
+            transform: translateY(-50%);
+            z-index: 0;
+            /* Behind the card */
+            filter: blur(50px);
+        }
+
+        .hero::after {
+            /* Existing blur circle */
+            content: "";
+            position: absolute;
+            bottom: 10%;
+            right: 15%;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(250,
+                    204,
+                    21,
+                    0.2);
+            /* Accent color with transparency */
+            border-radius: 10px;
+            z-index: 0;
+            /* Behind the card */
+            transform: rotate(-15deg);
+            filter: blur(30px);
         }
 
         .hero-right h1 {
-          font-size: 2rem; /* Adjust font size for smaller screens */
-          height: auto; /* Allow height to adjust */
-          line-height: 2.5rem; /* Adjust line height */
-          white-space: normal; /* Allow wrapping on smaller screens */
-          border-right: none; /* Remove cursor */
-          animation: none; /* Disable typing animation */
+            font-size: 3rem;
+            max-width: 700px;
+            /* Adjust as needed */
+            height: 4rem;
+            /* Adjust as needed */
+            line-height: 4rem;
+            /* Vertically center text */
+            z-index: 1;
+            white-space: nowrap;
+            /* Prevent wrapping */
+            overflow: hidden;
+            /* Hide characters beyond the visible width */
+            border-right: 0.15em solid orange;
+            /* Blinking cursor effect */
+            animation: typing 2s steps(20, end),
+                /* Typing effect */
+                blink-caret 0.75s step-end infinite;
+            /* Cursor blink */
+            display: inline-block;
+            /* Allows setting height and width */
         }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: orange;
+            }
+        }
+
         .hero p {
-          font-size: 1rem;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            max-width: 600px;
+            z-index: 1;
         }
+
+        header {
+            perspective: 1000px;
+        }
+
+        .hero-left {
+            position: relative;
+            width: 350px;
+            height: 450px;
+            /* background: #ccc; /* For debugging */
+        }
+
+        .design-behind-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140%;
+            /* Increased width to be larger than card */
+            height: auto;
+            /* Maintain aspect ratio */
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            /* Or 'cover' depending on desired effect */
+            z-index: -1;
+            /* Place behind the card-container */
+            background-color: none;
+            /* Remove transparency by adding a solid background */
+        }
+
+        .card-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+            transform: rotateY(0deg);
+            z-index: 1;
+            /* Ensure it's above the design image */
+        }
+
+        .card-container.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            backface-visibility: hidden;
+        }
+
+        .front {
+            background-color: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            transform: rotateY(0deg);
+        }
+
+        .back {
+            background: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            transform: rotateY(180deg);
+        }
+
+        .back img {
+            width: 500px;
+            height: 450px;
+            object-fit: cover;
+        }
+
+        .front img {
+            width: 500px;
+            height: 450px;
+            object-fit: cover;
+        }
+
+        /* Features */
         .features {
-          padding: 30px 10px;
-        }
-        .feature {
-          width: 90%;
-          margin: 15px auto;
-        }
-      }
-
-      .toggle-btn {
-        display: none;
-      }
-
-      @media (max-width: 768px) {
-        .toggle-btn {
-          display: block;
-        }
-      }
-
-      .slider {
-        position: relative;
-        width: 100%;
-        height: 900px;
-        overflow: hidden;
-        display: flex;
+            /* display: flex;
         justify-content: center;
-        align-items: center;
-      }
-      .item {
-        position: absolute;
-        width: 500px;
-        height: 620px;
-        text-align: justify;
-        border-radius: 10px;
-        transition: 0.5s;
-        left: calc(50% - 210px);
-        /* top: 10; */
-      }
+        flex-direction: column; */
+            /* flex-wrap: wrap; */
+            padding: 60px 20px;
+            background-color: #f0f4f8;
+            color: #000;
+            height: 100vh;
+            background: linear-gradient(to bottom, #f0f0f0, #d3d3d3);
 
-      .slider_heading{
-        font-size: 2.5rem;
-        padding-left: 35px;
-      }
-      #next,
-      #prev {
-        position: absolute;
-        top: 40%;
-        color: #000;
-        background-color: transparent;
-        border: none;
-        font-size: xxx-large;
-        font-family: monospace;
-        font-weight: bold;
-        left: 120px;
-      }
-      #next {
-        left: unset;
-        right: 120px;
-      }
+        }
 
-      .item img {
-        width: 500px;
-        height: 620px;
-      }
+        .feature_heading h2 {
+            font-size: 2rem;
+            padding: 10px;
+        }
+
+        .feature_heading {
+            text-align: center;
+            margin: 80px;
+            color: #000;
+        }
+
+        .feature {
+            background: #f9fafb;
+            padding: 30px;
+            margin: 15px;
+            width: 300px;
+            height: 30vh;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            transition: 0.3s ease;
+        }
+
+        .boxes {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .feature p {
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+            background: #212121;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar .logo {
+                margin-bottom: 10px;
+            }
+
+            .navbar .nav-links {
+                flex-direction: column;
+                display: none;
+                background: #212121;
+                width: 100%;
+                padding: 15px 20px;
+                border-radius: 8px;
+                margin-top: 10px;
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .navbar .auth-buttons {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 10px;
+                gap: 10px;
+            }
+
+            .navbar .auth-buttons.active {
+                display: flex;
+            }
+
+            .navbar .toggle-btn {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5rem;
+                position: absolute;
+                top: 1rem;
+                right: 2rem;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-left {
+                margin-bottom: 30px;
+            }
+
+            .hero-right h1 {
+                font-size: 2rem;
+                /* Adjust font size for smaller screens */
+                height: auto;
+                /* Allow height to adjust */
+                line-height: 2.5rem;
+                /* Adjust line height */
+                white-space: normal;
+                /* Allow wrapping on smaller screens */
+                border-right: none;
+                /* Remove cursor */
+                animation: none;
+                /* Disable typing animation */
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features {
+                padding: 30px 10px;
+            }
+
+            .feature {
+                width: 90%;
+                margin: 15px auto;
+            }
+        }
+
+        .toggle-btn {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .toggle-btn {
+                display: block;
+            }
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 900px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item {
+            position: absolute;
+            width: 500px;
+            height: 620px;
+            text-align: justify;
+            border-radius: 10px;
+            transition: 0.5s;
+            left: calc(50% - 210px);
+            /* top: 10; */
+        }
+
+        .slider_heading {
+            font-size: 2.5rem;
+            padding-left: 35px;
+        }
+
+        #next,
+        #prev {
+            position: absolute;
+            top: 40%;
+            color: #000;
+            background-color: transparent;
+            border: none;
+            font-size: xxx-large;
+            font-family: monospace;
+            font-weight: bold;
+            left: 120px;
+        }
+
+        #next {
+            left: unset;
+            right: 120px;
+        }
+
+        .item img {
+            width: 500px;
+            height: 620px;
+        }
+
+        .nav-links button {
+            font-size: 18px;
+            color: #e1e1e1;
+            font-family: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            position: relative;
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition-duration: 400ms;
+            transition-property: color;
+        }
+
+        .nav-links button:focus,
+        .nav-links button:hover {
+            color: #fff;
+        }
+
+        .nav-links button:focus:after,
+        .nav-links button:hover:after {
+            width: 100%;
+            left: 0%;
+        }
+
+        .nav-links button:after {
+            content: "";
+            pointer-events: none;
+            bottom: -2px;
+            left: 50%;
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background-color: #fff;
+            transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition-duration: 400ms;
+            transition-property: width, left;
+        }
+
+        .create_button {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            transition: all 0.2s ease-in;
+            position: relative;
+            overflow: hidden;
+            font-size: 19px;
+            cursor: pointer;
+            color: black;
+            z-index: 1;
+            margin: 20px 0;
+        }
+
+        .create_button:before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) scaleY(1) scaleX(1.25);
+            top: 100%;
+            width: 140%;
+            height: 180%;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            display: block;
+            transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+            z-index: -1;
+        }
+
+        .create_button:after {
+            content: "";
+            position: absolute;
+            left: 55%;
+            transform: translateX(-50%) scaleY(1) scaleX(1.45);
+            top: 180%;
+            width: 160%;
+            height: 190%;
+            background-color: #39bda7;
+            border-radius: 50%;
+            display: block;
+            transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+            z-index: -1;
+        }
+
+        .create_button:hover {
+            color: #ffffff;
+            border: none;
+        }
+
+        .create_button:hover:before {
+            top: -35%;
+            background-color: #39bda7;
+            transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+        }
+
+        .create_button:hover:after {
+            top: -45%;
+            background-color: #39bda7;
+            transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+        }
+
+        .box2-feature{
+            height: 50vh;
+        }
+
+        .box2 img{
+            height: 20vh;
+            border-radius: 50%;
+            align-items: center;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <nav class="navbar">
-      <div class="logo">HireMe.ai</div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Features</a></li>
-        <li><a href="#">Templates</a></li>
-        <li><a href="#">Team</a></li>
-      </ul>
-      <div class="auth-buttons" id="authButtons">
-        <button>Sign Up</button>
-        <button>Login</button>
-      </div>
-      <div class="toggle-btn" onclick="toggleMenu()">☰</div>
+        <div class="logo">HireMe.ai</div>
+        <ul class="nav-links" id="navLinks">
+            <li><button>
+                    Home
+                </button></li>
+            <li><button>
+                    Fatures
+                </button></li>
+            <li><button>
+                    Templates
+                </button></li>
+            <li><button>
+                    Team
+                </button></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+            <button>Sign Up</button>
+            <button>Login</button>
+        </div>
+        <div class="toggle-btn" onclick="toggleMenu()">☰</div>
     </nav>
 
     <header class="hero">
-      <div class="hero-left">
-        <img src="HireMeLogo.png" alt="" class="design-behind-image" />
-        <div class="card-container" id="autoFlipCard">
-          <div class="back">
-            <img
-              src="https://www.livecareer.com/lcapp/uploads/2024/08/free-online-resume.png"
-              alt="#"
-            />
-          </div>
-          <div class="front">
-            <img
-              src="https://static.resumegiants.com/wp-content/uploads/sites/25/2024/12/11131522/resumecoach_resumebuilder_jumbo-2-1040x994.webp"
-              alt="#"
-            />
-          </div>
+        <div class="hero-left">
+            <img src="HireMeLogo.png" alt="" class="design-behind-image" />
+            <div class="card-container" id="autoFlipCard">
+                <div class="back">
+                    <img src="https://www.livecareer.com/lcapp/uploads/2024/08/free-online-resume.png" alt="#" />
+                </div>
+                <div class="front">
+                    <img src="https://static.resumegiants.com/wp-content/uploads/sites/25/2024/12/11131522/resumecoach_resumebuilder_jumbo-2-1040x994.webp"
+                        alt="#" />
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="hero-right">
-        <h1 id="changingHeading"></h1>
-        <p>
-          Create job-winning resumes in minutes with smart suggestions and
-          beautiful templates.
-        </p>
-        <button onclick="startBuilder()">Create My Resume</button>
-      </div>
+        <div class="hero-right">
+            <h1 id="changingHeading"></h1>
+            <p>
+                Create job-winning resumes in minutes with smart suggestions and
+                beautiful templates.
+            </p>
+            <!-- From Uiverse.io by cssbuttons-io -->
+            <button onclick="startBuilder()" class="create_button">Create Now</button>
+        </div>
     </header>
 
     <section class="features">
-      <div class="feature_heading">
-        <h2>Build a Job-Winning Resume in Minutes – Get Noticed Faster!</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum placeat
-          dicta deserunt, praesentium eos corporis?
-        </p>
-      </div>
-      <div class="boxes">
-        <div class="feature">
-          <h3>AI Suggestions</h3>
-          <p>
-            Get automatic suggestions for skills, summary, and experience using
-            AI.
-          </p>
+        <div class="feature_heading">
+            <h2>Build a Job-Winning Resume in Minutes – Get Noticed Faster!</h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum placeat
+                dicta deserunt, praesentium eos corporis?
+            </p>
         </div>
-        <div class="feature">
-          <h3>1-Click Export</h3>
-          <p>Download your resume in PDF format with one click.</p>
+        <div class="boxes">
+            <div class="feature">
+                <h3>AI Suggestions</h3>
+                <p>
+                    Get automatic suggestions for skills, summary, and experience using
+                    AI.
+                </p>
+            </div>
+            <div class="feature">
+                <h3>1-Click Export</h3>
+                <p>Download your resume in PDF format with one click.</p>
+            </div>
+            <div class="feature">
+                <h3>Beautiful Templates</h3>
+                <p>
+                    Choose from a collection of modern and professional resume
+                    templates.
+                </p>
+            </div>
         </div>
-        <div class="feature">
-          <h3>Beautiful Templates</h3>
-          <p>
-            Choose from a collection of modern and professional resume
-            templates.
-          </p>
-        </div>
-      </div>
     </section>
 
     <h2 class="slider_heading">Resume templates that open doors.</h2>
 
     <div class="slider">
-      <h1>Template</h1>
-      <div class="item">
-        <img src="https://s3.eu-west-2.amazonaws.com/resumedone-eu-west-2-staging/EQzlL0HeKHv-photo.png" alt="" />
-      </div>
-      <div class="item">
-        <img
-          src="https://marketplace.canva.com/EAFzfwx_Qik/4/0/1131w/canva-blue-simple-professional-cv-resume-T9RPR4DPdiw.jpg"
-          alt=""
-        />
-      </div>
-      <div class="item">
-        <img
-          src="https://resumesector.com/wp-content/uploads/2024/10/Modern-Resume-Template-Free-Download-MS-Word.jpg"
-          alt=""
-        />
-      </div>
-      <div class="item">
-        <img src="resume-template.png" alt="" />
-      </div>
-      <div class="item">
-        <img
-          src="https://www.resumetemplates.com/wp-content/uploads/2024/12/Mid-Level-Product-Manager-Resume-Sample.pdf.jpeg"
-          alt=""
-        />
-      </div>
-      <div class="item">
-        <img
-          src="https://cdn.resumod.co/uploads/image-1687007752273.jpg"
-          alt=""
-        />
-      </div>
-      <div class="item">
-        <img
-          src="https://marketplace.canva.com/EAGQ-IIGNa0/1/0/1131w/canva-modern-professional-cv-resume-RZAonb9ZjgE.jpg"
-          alt=""
-        />
-      </div>
-      <button id="next">></button>
-      <button id="prev"><</button>
+        <h1>Template</h1>
+        <div class="item">
+            <img src="https://s3.eu-west-2.amazonaws.com/resumedone-eu-west-2-staging/EQzlL0HeKHv-photo.png" alt="" />
+        </div>
+        <div class="item">
+            <img src="https://marketplace.canva.com/EAFzfwx_Qik/4/0/1131w/canva-blue-simple-professional-cv-resume-T9RPR4DPdiw.jpg"
+                alt="" />
+        </div>
+        <div class="item">
+            <img src="https://resumesector.com/wp-content/uploads/2024/10/Modern-Resume-Template-Free-Download-MS-Word.jpg"
+                alt="" />
+        </div>
+        <div class="item">
+            <img src="resume-template.png" alt="" />
+        </div>
+        <div class="item">
+            <img src="https://www.resumetemplates.com/wp-content/uploads/2024/12/Mid-Level-Product-Manager-Resume-Sample.pdf.jpeg"
+                alt="" />
+        </div>
+        <div class="item">
+            <img src="https://cdn.resumod.co/uploads/image-1687007752273.jpg" alt="" />
+        </div>
+        <div class="item">
+            <img src="https://marketplace.canva.com/EAGQ-IIGNa0/1/0/1131w/canva-modern-professional-cv-resume-RZAonb9ZjgE.jpg"
+                alt="" />
+        </div>
+        <button id="next">></button>
+        <button id="prev"><</button>
     </div>
 
+    <section class="features">
+        <div class="feature_heading">
+            <h2>Our Team Members</h2>
+            <p>
+                Our team members, the unsung heroes behind our achievements, consistently demonstrate dedication and skill.
+            </p>
+        </div>
+        <div class="boxes box2 ">
+            <div class="feature box2-feature">
+                <img src="https://hypixel.net/attachments/970376/" alt="">
+                <h3>Aaditya Hande</h3>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque soluta illum excepturi recusandae harum corporis. Distinctio tempora eveniet iure mollitia.
+                </p>
+            </div>
+            <div class="feature box2-feature">
+                <img src="https://hypixel.net/attachments/970376/" alt="">
+                <h3>Aditya Suryawanshi</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque praesentium numquam dolores ipsum animi nulla repudiandae, accusantium molestiae sapiente vitae.</p>
+            </div>
+            <div class="feature box2-feature">
+                <img src="https://hypixel.net/attachments/970376/" alt="">
+                <h3>Kunal Kamble</h3>
+                <p>
+                   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque praesentium numquam dolores ipsum animi nulla repudiandae, accusantium molestiae sapiente vitae.
+                </p>
+            </div>
+            <div class="feature box2-feature">
+                <img src="https://hypixel.net/attachments/970376/" alt="">
+                <h3>Himanshu Patil</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque praesentium numquam dolores ipsum animi nulla repudiandae, accusantium molestiae sapiente vitae.</p>
+            </div>
+        </div>
+    </section>
+
+
     <footer>
-      <p>&copy; 2025 HireMe.ai. All Rights Reserved.</p>
+        <p>&copy; 2025 HireMe.ai. All Rights Reserved.</p>
     </footer>
 
     <script>
-      function toggleMenu() {
-        const navLinks = document.getElementById("navLinks");
-        const authButtons = document.getElementById("authButtons");
-        navLinks.classList.toggle("active");
-        authButtons.classList.toggle("active");
-      }
-
-      function startBuilder() {
-        alert("Redirecting to resume builder...");
-        // window.location.href = 'resume.html';
-      }
-
-      const autoFlipCard = document.getElementById("autoFlipCard");
-      let isFlipped = false;
-      const flipInterval = 4000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
-
-      function toggleFlip() {
-        autoFlipCard.classList.toggle("flipped");
-        isFlipped = !isFlipped;
-      }
-
-      // Set an interval to automatically flip the card
-      setInterval(toggleFlip, flipInterval);
-
-      // --- JavaScript for Typewriter Animation ---
-      const changingHeading = document.getElementById("changingHeading");
-      const headings = [
-        "Build Smart Resumes",
-        "Create Pro CVs",
-        "AI Resume Builder",
-        "Land Your Dream Job",
-      ];
-      let headingIndex = 0;
-      const typingSpeed = 100; // Time in milliseconds between each character
-      const erasingSpeed = 50; // Time in milliseconds between each character during erase
-      const delayBetweenHeadings = 1500; // Time in milliseconds to wait before next heading
-
-      let currentText = "";
-      let isTyping = true;
-
-      function typeWriter() {
-        const currentFullText = headings[headingIndex];
-
-        if (isTyping) {
-          if (currentText.length < currentFullText.length) {
-            currentText += currentFullText.charAt(currentText.length);
-            changingHeading.textContent = currentText;
-            setTimeout(typeWriter, typingSpeed);
-          } else {
-            isTyping = false;
-            setTimeout(typeWriter, delayBetweenHeadings); // Wait before erasing
-          }
-        } else {
-          if (currentText.length > 0) {
-            currentText = currentText.slice(0, currentText.length - 1);
-            changingHeading.textContent = currentText;
-            setTimeout(typeWriter, erasingSpeed);
-          } else {
-            isTyping = true;
-            headingIndex = (headingIndex + 1) % headings.length;
-            setTimeout(typeWriter, typingSpeed); // Start typing the next heading
-          }
+        function toggleMenu() {
+            const navLinks = document.getElementById("navLinks");
+            const authButtons = document.getElementById("authButtons");
+            navLinks.classList.toggle("active");
+            authButtons.classList.toggle("active");
         }
-      }
 
-      // Start the typewriter animation
-      typeWriter();
-
-      let items = document.querySelectorAll(".slider .item");
-      let next = document.getElementById("next");
-      let prev = document.getElementById("prev");
-
-      let active = 3;
-      function loadShow() {
-        let stt = 0;
-        items[active].style.transform = `none`;
-        items[active].style.zIndex = 1;
-        items[active].style.filter = "none";
-        items[active].style.opacity = 1;
-        for (var i = active + 1; i < items.length; i++) {
-          stt++;
-          items[i].style.transform = `translateX(${120 * stt}px) scale(${
-            1 - 0.2 * stt
-          }) perspective(16px) rotateY(-1deg)`;
-          items[i].style.zIndex = -stt;
-          items[i].style.filter = "blur(5px)";
-          items[i].style.opacity = stt > 2 ? 0 : 0.6;
+        function startBuilder() {
+            alert("Redirecting to resume builder...");
+            // window.location.href = 'resume.html';
         }
-        stt = 0;
-        for (var i = active - 1; i >= 0; i--) {
-          stt++;
-          items[i].style.transform = `translateX(${-120 * stt}px) scale(${
-            1 - 0.2 * stt
-          }) perspective(16px) rotateY(1deg)`;
-          items[i].style.zIndex = -stt;
-          items[i].style.filter = "blur(5px)";
-          items[i].style.opacity = stt > 2 ? 0 : 0.6;
+
+        const autoFlipCard = document.getElementById("autoFlipCard");
+        let isFlipped = false;
+        const flipInterval = 4000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
+
+        function toggleFlip() {
+            autoFlipCard.classList.toggle("flipped");
+            isFlipped = !isFlipped;
         }
-      }
-      loadShow();
-      next.onclick = function () {
-        active = active + 1 < items.length ? active + 1 : active;
+
+        // Set an interval to automatically flip the card
+        setInterval(toggleFlip, flipInterval);
+
+        // --- JavaScript for Typewriter Animation ---
+        const changingHeading = document.getElementById("changingHeading");
+        const headings = [
+            "Build Smart Resumes",
+            "Create Pro CVs",
+            "AI Resume Builder",
+            "Land Your Dream Job",
+        ];
+        let headingIndex = 0;
+        const typingSpeed = 100; // Time in milliseconds between each character
+        const erasingSpeed = 50; // Time in milliseconds between each character during erase
+        const delayBetweenHeadings = 1500; // Time in milliseconds to wait before next heading
+
+        let currentText = "";
+        let isTyping = true;
+
+        function typeWriter() {
+            const currentFullText = headings[headingIndex];
+
+            if (isTyping) {
+                if (currentText.length < currentFullText.length) {
+                    currentText += currentFullText.charAt(currentText.length);
+                    changingHeading.textContent = currentText;
+                    setTimeout(typeWriter, typingSpeed);
+                } else {
+                    isTyping = false;
+                    setTimeout(typeWriter, delayBetweenHeadings); // Wait before erasing
+                }
+            } else {
+                if (currentText.length > 0) {
+                    currentText = currentText.slice(0, currentText.length - 1);
+                    changingHeading.textContent = currentText;
+                    setTimeout(typeWriter, erasingSpeed);
+                } else {
+                    isTyping = true;
+                    headingIndex = (headingIndex + 1) % headings.length;
+                    setTimeout(typeWriter, typingSpeed); // Start typing the next heading
+                }
+            }
+        }
+
+        // Start the typewriter animation
+        typeWriter();
+
+        let items = document.querySelectorAll(".slider .item");
+        let next = document.getElementById("next");
+        let prev = document.getElementById("prev");
+
+        let active = 3;
+        function loadShow() {
+            let stt = 0;
+            items[active].style.transform = `none`;
+            items[active].style.zIndex = 1;
+            items[active].style.filter = "none";
+            items[active].style.opacity = 1;
+            for (var i = active + 1; i < items.length; i++) {
+                stt++;
+                items[i].style.transform = `translateX(${120 * stt}px) scale(${1 - 0.2 * stt
+                    }) perspective(16px) rotateY(-1deg)`;
+                items[i].style.zIndex = -stt;
+                items[i].style.filter = "blur(5px)";
+                items[i].style.opacity = stt > 2 ? 0 : 0.6;
+            }
+            stt = 0;
+            for (var i = active - 1; i >= 0; i--) {
+                stt++;
+                items[i].style.transform = `translateX(${-120 * stt}px) scale(${1 - 0.2 * stt
+                    }) perspective(16px) rotateY(1deg)`;
+                items[i].style.zIndex = -stt;
+                items[i].style.filter = "blur(5px)";
+                items[i].style.opacity = stt > 2 ? 0 : 0.6;
+            }
+        }
         loadShow();
-      };
-      prev.onclick = function () {
-        active = active - 1 >= 0 ? active - 1 : active;
-        loadShow();
-      };
+        next.onclick = function () {
+            active = active + 1 < items.length ? active + 1 : active;
+            loadShow();
+        };
+        prev.onclick = function () {
+            active = active - 1 >= 0 ? active - 1 : active;
+            loadShow();
+        };
     </script>
-  </body>
+</body>
+
 </html>
